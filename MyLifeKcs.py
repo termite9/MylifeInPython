@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.title(" 터마이트의 퇴직 후 요리 일기")
+st.title(" 터마이트의 퇴직 ")
 
 # 입력창
 dish = st.text_input("오늘 만든 요리", "닭백숙")
