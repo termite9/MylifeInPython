@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.title(" 터마이트의  ")
+st.title(" 터마이트의 수정이반영 ")
 
 # 입력창
 dish = st.text_input("오늘 만든 요리", "닭백숙")
