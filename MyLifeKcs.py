@@ -29,7 +29,7 @@ if st.button("경기 결과 저장하기"):
     st.balloons()
     st.success(f"{date} 경기 결과가 저장되었습니다! 승자: {winner}")
 
-# 경기 통계 시각화 (예시 데이터)
+# 경기a 통계 시각화 (예시 데이터)
 st.divider()
 st.header("📊 이번 달 승률 순위")
 
