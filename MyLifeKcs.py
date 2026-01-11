@@ -39,22 +39,5 @@ if st.button("경기 결과 저장하기"):
     st.success("데이터가 안전하게 저장되었습니다!")
     st.rerun() # 화면 갱신
 
-<<<<<<< HEAD
-# --- 검색 및 통계 화면 ---
-=======
-# 경기a 통계 시각화 (예시 데이터)
->>>>>>> 81cb7f7f4a1b1cf0f4a7c463a1c0d98c1100a222
-st.divider()
-st.header("🔍 과거 기록 검색")
-
-search_name = st.text_input("검색하고 싶은 사람의 이름을 입력하세요 (예: 터마이트)")
-if search_name:
-    filtered_df = df_history[df_history['승자'].str.contains(search_name)]
-    st.write(f"'{search_name}'님의 승리 기록입니다:")
-    st.table(filtered_df)
-else:
-    st.write("전체 경기 기록:")
-    st.table(df_history)
-
 
 #####실행할때는 터미널에서 streamlit run MyLifeKcs.py 와 같이 실행해야됨
