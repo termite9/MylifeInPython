@@ -1,43 +1,39 @@
 import streamlit as st
+from streamlit_gsheets import GSheetsConnection
 import pandas as pd
 import datetime
-import os
-# st.write(f"현재 파일이 저장되는 위치: {os.getcwd()}")
-# 파일 경로 설정
-DATA_FILE = "billiard_results.csv"
-
-# 데이터 불러오기 함수
-def load_data():
-    if os.path.exists(DATA_FILE):
-        return pd.read_csv(DATA_FILE)
-    else:
-        return pd.DataFrame(columns=["날짜", "승자", "에버리지"])
 
 st.set_page_config(page_title="터마이트의 3쿠션 기록관", page_icon="🎱")
-st.title("🎱 3쿠션 마스터: 기록 보관소")
+st.title("🎱 3쿠션 인터넷 기록소")
 
-# --- 데이터 로드 ---
-df_history = load_data()
+# 구글 시트 연결 설정
+# (실제 배포 시에는 구글 시트 주소를 secrets.toml에 넣어야 하지만, 테스트용으로 직접 넣는 법을 알려드릴게요)
+url = "https://docs.google.com/spreadsheets/d/1w8iNPwWpQC-QGbdNgANtJKETTQlsN-bTe640rPZUKwU/edit?gid=0#gid=0"
+conn = st.connection("gsheets", type=GSheetsConnection)
 
-# 메인 화면: 경기 기록 입력
-st.header("📝 오늘의 경기 기록")
-col1, col2 = st.columns(2)
-with col1:
+# 데이터 불러오기
+df = conn.read(spreadsheet=url, worksheet="Sheet1")
+
+# 입력 화면
+with st.form("entry_form"):
     date = st.date_input("경기 날짜", datetime.date.today())
     winner = st.selectbox("오늘의 승자는?", ["터마이트", "친구1", "친구2", "친구3", "친구4"])
-with col2:
     avg = st.number_input("나의 에버리지", min_value=0.0, max_value=2.0, value=0.4, step=0.01)
+    submit = st.form_submit_button("구글 시트에 저장하기")
 
-if st.button("경기 결과 저장하기"):
-    # 새로운 기록 추가
-    new_data = pd.DataFrame({"날짜": [str(date)], "승자": [winner], "에버리지": [avg]})
-    # 기존 데이터에 합치기
-    df_updated = pd.concat([df_history, new_data], ignore_index=True)
-    # 파일로 저장
-    df_updated.to_csv(DATA_FILE, index=False)
-    st.balloons()
-    st.success("데이터가 안전하게 저장되었습니다!")
-    st.rerun() # 화면 갱신
+    if submit:
+        # 새로운 데이터 행 생성
+        new_row = pd.DataFrame([{"날짜": str(date), "승자": winner, "에버리지": avg}])
+        # 기존 데이터에 추가
+        updated_df = pd.concat([df, new_row], ignore_index=True)
+        # 구글 시트에 업데이트
+        conn.update(spreadsheet=url, data=updated_df)
+        st.success("구글 시트에 안전하게 기록되었습니다!")
+        st.balloons()
 
+# 저장된 기록 보여주기
+st.divider()
+st.subheader("📊 누적 경기 기록")
+st.dataframe(df)
 
 #####실행할때는 터미널에서 streamlit run MyLifeKcs.py 와 같이 실행해야됨
