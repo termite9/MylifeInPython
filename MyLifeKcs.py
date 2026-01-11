@@ -7,8 +7,9 @@ st.set_page_config(page_title="터마이트의 3쿠션 기록관", page_icon="�
 st.title("🎱 3쿠션 인터넷 기록소")
 
 # 1. 주소 수정: 뒤의 /edit 부분을 제거하고 깔끔하게 시트 ID만 남깁니다.
-url = "https://docs.google.com/spreadsheets/d/1w8iNPwWpQC-QGbdNgANtJKETTQlsN-bTe640rPZUKwU"
-
+# url = "https://docs.google.com/spreadsheets/d/1w8iNPwWpQC-QGbdNgANtJKETTQlsN-bTe640rPZUKwU"
+# 기존 주소 대신 아래처럼 시트 ID 뒤에 'edit'까지만 남겨보세요.
+url = "https://docs.google.com/spreadsheets/d/1w8iNPwWpQC-QGbdNgANtJKETTQlsN-bTe640rPZUKwU/edit#gid=0"
 conn = st.connection("gsheets", type=GSheetsConnection)
 
 # 2. 데이터 불러오기 (ttl=0을 넣어 실시간으로 반영되게 합니다)
