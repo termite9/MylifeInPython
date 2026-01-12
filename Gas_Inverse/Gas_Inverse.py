@@ -27,12 +27,13 @@ df = load_data()
 with st.form("entry_form"):
     date = st.date_input("거래일", datetime.date.today())
     NG = st.number_input("Natural Gas($)", min_value=0.000, max_value=20.000,value=None)
-    stock_value = st.number_input("삼성인버스2x", min_value=0, max_value=90000,value=None,format="%d")
+    stock_value_Inverse = st.number_input("삼성인버스2x", min_value=0, max_value=90000,value=None,format="%d")
+    stock_value_leverge = st.number_input("삼성레버리지", min_value=0, max_value=90000,value=None,format="%d")
     submit = st.form_submit_button("구글 시트에 저장하기")
 
     if submit:
         # 새 데이터 행 생성
-        new_row = pd.DataFrame([{"거래일": str(date),"Natural Gas($)":NG,  "삼성인버스2x": stock_value}])
+        new_row = pd.DataFrame([{"거래일": str(date),"Natural Gas($)":NG,  "삼성인버스2x": stock_value_Inverse, "삼성레버리지": stock_value_leverge}])
         
         # 2. 기존 데이터와 새 데이터 합치기 (비어있는 경우 처리)
         if df.empty:
