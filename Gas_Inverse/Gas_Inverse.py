@@ -42,7 +42,7 @@ with st.form("entry_form"):
         
         # 3. 구글 시트에 업데이트
         try:
-            conn.update(spreadsheet=url, data=updated_df)
+            conn.update(spreadsheet=url, worksheet="Sheet2",data=updated_df)
             st.success("구글 시트에 안전하게 기록되었습니다!")
             st.balloons()
             
